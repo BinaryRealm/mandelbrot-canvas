@@ -1,0 +1,92 @@
+<html>
+<body style="overflow:hidden">
+
+The Mandelbrot Set
+<canvas id="mainCanvas" width="1900px" height="960px" style = "border: 1px solid black">
+Hello
+</canvas>
+
+<script>
+
+var c = document.getElementById("mainCanvas");
+var ctx = c.getContext("2d")
+
+class ComplexNum{
+	constructor(a,b){
+	this.a = a;
+	this.b = b;
+	}
+	printNum(){
+		console.log(this.a+ "+" + this.b+ "i"); 
+	}
+}
+
+class Mandelbrot{
+	constructor(pow, iterations, x, y){
+		for(var i=0; i<c.width-1; i++){
+			for(var j=0; j<c.height-1; j++){
+				if (Z(new ComplexNum(0,0), 
+				new ComplexNum(valToXCoord(i-x)*Math.pow(10,pow), valToYCoord(j-y)*Math.pow(10,pow)),
+				iterations) === true){
+				
+					ctx.fillRect(i,j,1,1);
+					
+				}
+			}
+		}
+	}
+}
+
+function complexSquared(num){
+	var real = (num.a * num.a) - (num.b * num.b);
+	var imaginary = 2 * (num.a * num.b);
+	return new ComplexNum(real, imaginary);
+}
+
+function complexAdd(num1, num2){
+	var real = num1.a + num2.a;
+	var imaginary = num1.b + num2.b;
+	return new ComplexNum(real, imaginary);
+}
+
+function Z(z,c, iterations){
+	if (iterations === 0){
+		return true;
+	}
+	if (Math.sqrt(Math.pow(z.a,2)+Math.pow(z.b,2))>2){
+		return false;
+	}
+	return Z(complexAdd(complexSquared(z),c), c, iterations-1);
+}
+
+function valToXCoord(x){
+	xf = x-Math.floor(c.width/2);
+	return xf;
+}
+	
+function valToYCoord(y){
+	yf = Math.floor(c.height/2)-y;
+	return yf;
+}
+//fractal = new Mandelbrot(zoom, iterations, x-offset, y-offset);
+//fractal = new Mandelbrot(-3.5,300,2500,-500); // a zoom-in on the edge
+ctx.fillStyle = "beige";
+fractal = new Mandelbrot(-2.6, 4, 200, 0);
+ctx.fillStyle = "red";
+fractal = new Mandelbrot(-2.6, 5, 200, 0);
+ctx.fillStyle = "orange";
+fractal = new Mandelbrot(-2.6, 7, 200, 0);
+ctx.fillStyle = "yellow";
+fractal = new Mandelbrot(-2.6, 10, 200, 0);
+ctx.fillStyle = "green";
+fractal = new Mandelbrot(-2.6, 12, 200, 0);
+ctx.fillStyle = "blue";
+fractal = new Mandelbrot(-2.6, 18, 200, 0);
+ctx.fillStyle = "purple";
+fractal = new Mandelbrot(-2.6, 30, 200, 0);
+ctx.fillStyle = "black";
+fractal = new Mandelbrot(-2.6, 300, 200, 0); //a good overall view
+</script>
+
+</body>
+</html>
